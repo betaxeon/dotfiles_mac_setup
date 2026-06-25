@@ -244,21 +244,55 @@ config.keys = {
     mods = "CMD|SHIFT",
     action = act.SendString("\x02s"),
   },
-
-  -- Cmd+Shift+N: create a new tmux session.
-  -- After pressing this, type the session name and press Enter.
+  -- Cmd+Shift+N: create a new tmux session using a WezTerm prompt
   {
     key = "n",
     mods = "CMD|SHIFT",
-    action = act.SendString("\x02:new-session -s "),
-  },
+    action = act.PromptInputLine({
+      description = "New tmux session name:",
+      action = wezterm.action_callback(function(window, pane, line)
+        if line then
+          -- Keep session names safe: letters, numbers, underscore, dash, dot
+          local session = line:gsub("[^%w_.-]", "_")
 
+          if session ~= "" then
+            window:perform_action(
+              act.SendString("tmux new-session -d -s " .. session .. " \\; switch-client -t " .. session .. "\r"),
+              pane
+            )
+          end
+        end
+      end),
+    }),
+  },
   -- Cmd+Shift+Q: detach from tmux.
   -- Because tmux is the main WezTerm process, this may close the WezTerm window.
   {
     key = "q",
     mods = "CMD|SHIFT",
     action = act.SendString("\x02d"),
+  },
+
+  -- Cmd+Shift+Arrow: move between tmux panes
+  {
+    key = "LeftArrow",
+    mods = "CMD|SHIFT",
+    action = act.SendString("\x02\x1b[D"),
+  },
+  {
+    key = "RightArrow",
+    mods = "CMD|SHIFT",
+    action = act.SendString("\x02\x1b[C"),
+  },
+  {
+    key = "UpArrow",
+    mods = "CMD|SHIFT",
+    action = act.SendString("\x02\x1b[A"),
+  },
+  {
+    key = "DownArrow",
+    mods = "CMD|SHIFT",
+    action = act.SendString("\x02\x1b[B"),
   },
 }
 
