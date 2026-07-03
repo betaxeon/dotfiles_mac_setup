@@ -178,16 +178,50 @@ config.keys = {
     action = act.SendString("\x029"),
   },
 
-  -- Cmd+[ / Cmd+]: previous / next tmux window
+  -- Cmd+Shift+[ / Cmd+Shift+]: previous / next tmux window
   {
     key = "[",
-    mods = "CMD",
+    mods = "CMD|SHIFT",
     action = act.SendString("\x02p"),
   },
   {
     key = "]",
-    mods = "CMD",
+    mods = "CMD|SHIFT",
     action = act.SendString("\x02n"),
+  },
+
+  -- Cmd+[ / Cmd+]: previous / next tmux pane
+  {
+    key = "[",
+    mods = "CMD",
+    action = act.SendString("\x02;"),
+  },
+  {
+    key = "]",
+    mods = "CMD",
+    action = act.SendString("\x02o"),
+  },
+
+  -- Cmd+Option+Arrow: move to tmux pane by direction
+  {
+    key = "LeftArrow",
+    mods = "CMD|OPT",
+    action = act.SendString("\x02:select-pane -L\r"),
+  },
+  {
+    key = "RightArrow",
+    mods = "CMD|OPT",
+    action = act.SendString("\x02:select-pane -R\r"),
+  },
+  {
+    key = "UpArrow",
+    mods = "CMD|OPT",
+    action = act.SendString("\x02:select-pane -U\r"),
+  },
+  {
+    key = "DownArrow",
+    mods = "CMD|OPT",
+    action = act.SendString("\x02:select-pane -D\r"),
   },
 
   -- Cmd+Z: zoom/unzoom current tmux pane
