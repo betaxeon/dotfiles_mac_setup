@@ -114,12 +114,11 @@ config.keys = {
   },
 
   -- Cmd+W: close the current tmux pane.
-  -- This is safer and clearer than raw Ctrl-b x.
-  -- If the prompt says pane 1, tmux currently thinks pane 1 is focused.
+  -- If this is the last pane in the tmux window, tmux closes the window too.
   {
     key = "w",
     mods = "CMD",
-    action = act.SendString('\x02:confirm-before -p "Kill current pane #P? (y/n)" kill-pane\r'),
+    action = act.SendString("\x02x"),
   },
 
   -- Cmd+K: clear visible shell screen + tmux scrollback history
