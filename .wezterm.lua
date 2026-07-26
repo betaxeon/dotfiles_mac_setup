@@ -178,14 +178,36 @@ config.keys = {
     action = act.SendString("\x029"),
   },
 
-  -- Cmd+Shift+[ / Cmd+Shift+]: previous / next tmux window
+  -- Cmd+Shift+[ / Cmd+Shift+]: previous / next tmux window.
+  -- Depending on keyboard event normalization, WezTerm may report these as
+  -- either shifted brackets or shifted characters, so bind both forms.
   {
     key = "[",
     mods = "CMD|SHIFT",
     action = act.SendString("\x02p"),
   },
   {
+    key = "{",
+    mods = "CMD",
+    action = act.SendString("\x02p"),
+  },
+  {
+    key = "{",
+    mods = "CMD|SHIFT",
+    action = act.SendString("\x02p"),
+  },
+  {
     key = "]",
+    mods = "CMD|SHIFT",
+    action = act.SendString("\x02n"),
+  },
+  {
+    key = "}",
+    mods = "CMD",
+    action = act.SendString("\x02n"),
+  },
+  {
+    key = "}",
     mods = "CMD|SHIFT",
     action = act.SendString("\x02n"),
   },
@@ -200,28 +222,6 @@ config.keys = {
     key = "]",
     mods = "CMD",
     action = act.SendString("\x02o"),
-  },
-
-  -- Cmd+Option+Arrow: move to tmux pane by direction
-  {
-    key = "LeftArrow",
-    mods = "CMD|OPT",
-    action = act.SendString("\x02:select-pane -L\r"),
-  },
-  {
-    key = "RightArrow",
-    mods = "CMD|OPT",
-    action = act.SendString("\x02:select-pane -R\r"),
-  },
-  {
-    key = "UpArrow",
-    mods = "CMD|OPT",
-    action = act.SendString("\x02:select-pane -U\r"),
-  },
-  {
-    key = "DownArrow",
-    mods = "CMD|OPT",
-    action = act.SendString("\x02:select-pane -D\r"),
   },
 
   -- Cmd+Z: zoom/unzoom current tmux pane
