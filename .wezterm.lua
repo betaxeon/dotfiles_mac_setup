@@ -18,13 +18,7 @@ end
 config.color_scheme = "rose-pine-moon"
 config.max_fps = 120
 
--- Use fonts that should exist locally on macOS.
--- If you install a Nerd Font later, replace "Menlo" with that font.
-config.font = wezterm.font_with_fallback({
-  "Menlo",
-  "Monaco",
-  "Noto Color Emoji",
-})
+config.font = wezterm.font("Hack Nerd Font")
 
 config.window_frame = {
   font = wezterm.font_with_fallback({

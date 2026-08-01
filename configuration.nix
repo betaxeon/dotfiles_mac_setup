@@ -1,4 +1,4 @@
-{ user, ... }:
+{ pkgs, user, ... }:
 
 let
   home = "/Users/${user}";
@@ -17,6 +17,10 @@ in
   users.users.${user} = {
     inherit home;
   };
+
+  fonts.packages = [
+    pkgs.nerd-fonts.hack
+  ];
 
   nix-homebrew = {
     enable = true;

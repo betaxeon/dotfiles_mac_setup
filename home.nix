@@ -3,7 +3,8 @@
 {
   home.username = user;
   home.homeDirectory = "/Users/${user}";
-  home.stateVersion = "24.11";
+  home.stateVersion = "26.05";
+  xdg.enable = true;
 
   home.packages = with pkgs; [
     # CLI tools used constantly.
@@ -13,12 +14,8 @@
     jq
     lazygit
     neovim
-
-    # The font used by terminal applications.
-    nerd-fonts.hack
   ];
 
-  fonts.fontconfig.enable = true;
   home.sessionVariables.EDITOR = "nvim";
 
   programs.zsh = {
@@ -56,8 +53,6 @@
   # Home Manager owns these links. `force` handles the one-time transition
   # from the links previously created by configuration.nix.
   home.file = {
-    # programs.zsh supplies the generated source for this file.
-    ".zshrc".force = true;
     ".zprofile" = {
       source = ./.zprofile;
       force = true;
