@@ -40,10 +40,21 @@ in
     ];
 
     casks = [
+      "chatgpt"
       "codex"
+      "docker-desktop"
+      "google-chrome"
+      "iina"
+      "iterm2"
       "opensuperwhisper"
+      "rectangle"
+      "visual-studio-code"
       "wezterm"
     ];
+
+    masApps = {
+      "MenuBar Stats" = 714196447;
+    };
   };
 
   # Current non-default macOS preferences captured from this Mac.

@@ -69,5 +69,9 @@
       source = ./.gitconfig;
       force = true;
     };
+    "Library/Group Containers/3EYN7PPTPF.com.fabriceleyne.menubarstats/Library/Preferences/3EYN7PPTPF.com.fabriceleyne.menubarstats.plist" = {
+      source = ./app-configs/menubar-stats/preferences.plist;
+      force = true;
+    };
   };
 }
