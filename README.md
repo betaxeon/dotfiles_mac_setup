@@ -1,8 +1,8 @@
 # dotfiles_mac_setup
 
-Personal macOS dotfiles managed from `~/.dotfiles`.
+Personal macOS dotfiles managed with nix-darwin and Home Manager.
 
-The files in this repo are symlinked back into the home directory so apps and shells keep reading them from their normal locations while Git tracks the source copies here.
+Home Manager installs the tracked dotfiles and user tools, while nix-darwin manages machine-wide macOS and Homebrew settings. The checkout can live anywhere; there is no required `~/.dotfiles` link.
 
 This repo also includes a starter nix-darwin configuration for use with Determinate Nix. Determinate manages the Nix daemon, so the nix-darwin config leaves `nix.enable = false`.
 
@@ -14,61 +14,59 @@ This repo also includes a starter nix-darwin configuration for use with Determin
 - `.wezterm.lua`
 - `.gitconfig`
 - `flake.nix`
+- `flake.lock`
 - `configuration.nix`
+- `home.nix`
+- `bootstrap.sh`
+- `rebuild.sh`
 
 Runtime state, caches, shell history, SSH keys, editor databases, and app data are intentionally not tracked.
 
 ## Current Layout
 
 ```text
-~/.zshrc        -> ~/.dotfiles/.zshrc
-~/.zprofile     -> ~/.dotfiles/.zprofile
-~/.tmux.conf    -> ~/.dotfiles/.tmux.conf
-~/.wezterm.lua  -> ~/.dotfiles/.wezterm.lua
-~/.gitconfig    -> ~/.dotfiles/.gitconfig
+configuration.nix  -> system settings, Homebrew, and nix-homebrew
+home.nix           -> packages, Zsh, Starship, and home-directory files
+~/.zshrc           -> Home Manager generation
+~/.zprofile        -> Home Manager generation
+~/.tmux.conf       -> Home Manager generation
+~/.wezterm.lua     -> Home Manager generation
+~/.gitconfig       -> Home Manager generation
 ```
 
 ## Restore On A New Mac
 
-Clone the repo into the home directory:
+Clone the repository, then run the one-time bootstrap as your normal user:
 
 ```sh
-git clone git@github.com:betaxeon/dotfiles_mac_setup.git ~/.dotfiles
+git clone git@github.com:betaxeon/dotfiles_mac_setup.git ~/dotfiles
+cd ~/dotfiles
+./bootstrap.sh
 ```
 
-Create or refresh the symlinks:
+The bootstrap:
+
+- installs Determinate Nix when necessary;
+- offers to rewrite the single bootstrap-managed username in `flake.nix`;
+- performs the first nix-darwin switch.
+
+The username rewrite intentionally changes the tracked `flake.nix`. Review it
+after bootstrapping with `git diff -- flake.nix`.
+
+After the first switch, use the rebuild script for all later changes:
 
 ```sh
-ln -sf ~/.dotfiles/.zshrc ~/.zshrc
-ln -sf ~/.dotfiles/.zprofile ~/.zprofile
-ln -sf ~/.dotfiles/.tmux.conf ~/.tmux.conf
-ln -sf ~/.dotfiles/.wezterm.lua ~/.wezterm.lua
-ln -sf ~/.dotfiles/.gitconfig ~/.gitconfig
+./rebuild.sh
 ```
 
-Reload the shell configuration:
-
-```sh
-source ~/.zshrc
-```
-
-## Apply With Nix
-
-After installing Determinate Nix, apply the nix-darwin configuration from this repo:
-
-```sh
-cd ~/.dotfiles
-nix run nix-darwin -- switch --flake ~/.dotfiles#Garys-MacBook
-```
-
-The nix-darwin activation also refreshes the dotfile symlinks listed above.
+The switch also runs Home Manager, which refreshes the managed home files.
 
 ## Updating
 
-Edit files either through the home directory symlink or directly inside `~/.dotfiles`, then commit and push from this repo:
+Edit the source files in this checkout, run `./rebuild.sh`, then commit and push from this repo. Home Manager's generated links point into the immutable Nix store, so edit the checkout rather than the files in your home directory.
 
 ```sh
-cd ~/.dotfiles
+cd ~/dotfiles
 git status
 git add .
 git commit -m "Update dotfiles"

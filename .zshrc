@@ -1,2 +1,3 @@
 autoload -Uz compinit
 compinit
+export PATH="/opt/homebrew/opt/node@24/bin:$PATH"
