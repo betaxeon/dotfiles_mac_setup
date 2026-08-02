@@ -49,7 +49,9 @@ in
       "opensuperwhisper"
       "rectangle"
       "visual-studio-code"
+      "wechat"
       "wezterm"
+      "localsend"
     ];
 
     masApps = {
@@ -59,12 +61,55 @@ in
 
   # Current non-default macOS preferences captured from this Mac.
   system.defaults = {
-    CustomUserPreferences.NSGlobalDomain = {
-      AppleLanguages = [
-        "en-AU"
-        "zh-Hans-AU"
-      ];
-      AppleLocale = "en_AU";
+    CustomUserPreferences = {
+      NSGlobalDomain = {
+        AppleLanguages = [
+          "en-AU"
+          "zh-Hans-AU"
+        ];
+        AppleLocale = "en_AU";
+      };
+
+      # Keep Australian and Simplified Chinese Pinyin available as input
+      # sources. Language preferences alone do not preserve keyboards.
+      "com.apple.HIToolbox" = {
+        AppleEnabledInputSources = [
+          {
+            InputSourceKind = "Keyboard Layout";
+            "KeyboardLayout ID" = 15;
+            "KeyboardLayout Name" = "Australian";
+          }
+          {
+            "Bundle ID" = "com.apple.CharacterPaletteIM";
+            InputSourceKind = "Non Keyboard Input Method";
+          }
+          {
+            "Bundle ID" = "com.apple.PressAndHold";
+            InputSourceKind = "Non Keyboard Input Method";
+          }
+          {
+            "Bundle ID" = "com.apple.inputmethod.SCIM";
+            InputSourceKind = "Keyboard Input Method";
+          }
+          {
+            "Bundle ID" = "com.apple.inputmethod.SCIM";
+            "Input Mode" = "com.apple.inputmethod.SCIM.ITABC";
+            InputSourceKind = "Input Mode";
+          }
+        ];
+        AppleInputSourceHistory = [
+          {
+            InputSourceKind = "Keyboard Layout";
+            "KeyboardLayout ID" = 15;
+            "KeyboardLayout Name" = "Australian";
+          }
+          {
+            "Bundle ID" = "com.apple.inputmethod.SCIM";
+            "Input Mode" = "com.apple.inputmethod.SCIM.ITABC";
+            InputSourceKind = "Input Mode";
+          }
+        ];
+      };
     };
 
     NSGlobalDomain = {

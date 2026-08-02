@@ -14,7 +14,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager }:
   let
-    user = "zhhgao"; # bootstrap-managed
+    user = "gary"; # bootstrap-managed
   in
   {
     darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
