@@ -15,10 +15,15 @@
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager }:
   let
     user = "gary"; # bootstrap-managed
+    exceptionsPath = builtins.getEnv "DOTFILES_PACKAGE_EXCEPTIONS";
+    packageExceptions =
+      if exceptionsPath != "" && builtins.pathExists exceptionsPath
+      then import (builtins.toPath exceptionsPath)
+      else import ./package-exceptions.default.nix;
   in
   {
     darwinConfigurations."mac" = nix-darwin.lib.darwinSystem {
-      specialArgs = { inherit user; };
+      specialArgs = { inherit user packageExceptions; };
       modules = [
         nix-homebrew.darwinModules.nix-homebrew
         home-manager.darwinModules.home-manager
@@ -27,7 +32,7 @@
             useGlobalPkgs = true;
             useUserPackages = true;
             backupFileExtension = "backup";
-            extraSpecialArgs = { inherit user; };
+            extraSpecialArgs = { inherit user packageExceptions; };
             users.${user} = import ./home.nix;
           };
         }

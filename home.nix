@@ -1,20 +1,22 @@
-{ config, pkgs, user, ... }:
+{ config, pkgs, user, packageExceptions, ... }:
 
+let
+  packageSelection = import ./package-selection.nix {
+    catalog = import ./package-catalog.nix;
+    exceptions = packageExceptions;
+  };
+  nixPackages = {
+    inherit (pkgs) ripgrep fd fzf jq lazygit neovim;
+  };
+in
 {
   home.username = user;
   home.homeDirectory = "/Users/${user}";
   home.stateVersion = "26.05";
   xdg.enable = true;
 
-  home.packages = with pkgs; [
-    # CLI tools used constantly.
-    ripgrep
-    fd
-    fzf
-    jq
-    lazygit
-    neovim
-  ];
+  # CLI tools used constantly, except those kept outside Nix in the exceptions.
+  home.packages = map (name: nixPackages.${name}) packageSelection.nixPackages;
 
   home.sessionVariables.EDITOR = "nvim";
 

@@ -6,3 +6,4 @@
 .bash_history
 .viminfo
 .lesshst
+package-exceptions.nix

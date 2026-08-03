@@ -1,7 +1,11 @@
-{ pkgs, user, ... }:
+{ pkgs, user, packageExceptions, ... }:
 
 let
   home = "/Users/${user}";
+  packageSelection = import ./package-selection.nix {
+    catalog = import ./package-catalog.nix;
+    exceptions = packageExceptions;
+  };
 in
 
 {
@@ -32,31 +36,7 @@ in
   homebrew = {
     enable = true;
 
-    brews = [
-      "gh"
-      "node@24"
-      "tmux"
-      "xcodes"
-    ];
-
-    casks = [
-      "chatgpt"
-      "codex"
-      "docker-desktop"
-      "google-chrome"
-      "iina"
-      "iterm2"
-      "opensuperwhisper"
-      "rectangle"
-      "visual-studio-code"
-      "wechat"
-      "wezterm"
-      "localsend"
-    ];
-
-    masApps = {
-      "MenuBar Stats" = 714196447;
-    };
+    inherit (packageSelection) brews casks masApps;
   };
 
   # Current non-default macOS preferences captured from this Mac.

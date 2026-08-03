@@ -17,6 +17,9 @@ This repo also includes a starter nix-darwin configuration for use with Determin
 - `flake.lock`
 - `configuration.nix`
 - `home.nix`
+- `package-catalog.nix`
+- `package-exceptions.default.nix`
+- `package-selection.nix`
 - `bootstrap.sh`
 - `rebuild.sh`
 
@@ -47,8 +50,23 @@ cd ~/dotfiles
 The bootstrap:
 
 - installs Determinate Nix when necessary;
+- creates a machine-local, Git-ignored `package-exceptions.nix` file;
+- detects declared applications and tools that already exist and asks whether
+  to preserve them outside the Nix configuration;
 - offers to rewrite the single bootstrap-managed username in `flake.nix`;
 - performs the first nix-darwin switch.
+
+`package-exceptions.default.nix` is the tracked template. Its four lists are
+empty by default and contain commented examples for Nix packages, Homebrew
+formulae, Homebrew casks, and Mac App Store applications. Bootstrap copies it
+to `package-exceptions.nix`, then records software you choose to preserve.
+
+The local `package-exceptions.nix` is ignored by Git because its contents can
+differ on every Mac. You can edit it manually using names from
+`package-catalog.nix`. Adding a name prevents nix-darwin or Home Manager from
+installing and managing that item; removing it makes the item declarative on
+the next rebuild. Existing software is not uninstalled when it becomes an
+exception.
 
 The username rewrite intentionally changes the tracked `flake.nix`. Review it
 after bootstrapping with `git diff -- flake.nix`.
@@ -63,7 +81,10 @@ The switch also runs Home Manager, which refreshes the managed home files.
 
 ## Updating
 
-Edit the source files in this checkout, run `./rebuild.sh`, then commit and push from this repo. Home Manager's generated links point into the immutable Nix store, so edit the checkout rather than the files in your home directory.
+Edit the source files in this checkout, run `./rebuild.sh`, then commit and push
+from this repo. Home Manager's generated links point into the immutable Nix
+store, so edit the checkout rather than the files in your home directory.
+Never stage `package-exceptions.nix`; it is machine-local and ignored by Git.
 
 ```sh
 cd ~/dotfiles
