@@ -17,6 +17,8 @@ This repo also includes a starter nix-darwin configuration for use with Determin
 - `flake.lock`
 - `configuration.nix`
 - `home.nix`
+- `app-configs/cmux/ghostty.conf`
+- `app-configs/cmux/cmux.json`
 - `package-catalog.nix`
 - `package-exceptions.default.nix`
 - `package-selection.nix`
@@ -31,6 +33,8 @@ Runtime state, caches, shell history, SSH keys, editor databases, and app data a
 configuration.nix  -> system settings, Homebrew, and nix-homebrew
 home.nix           -> packages, Zsh, Starship, and home-directory files
 ~/.zshrc           -> Home Manager generation
+~/.config/ghostty/config -> managed cmux terminal appearance
+~/.config/cmux/cmux.json -> managed cmux app appearance
 ~/.zprofile        -> Home Manager generation
 ~/.tmux.conf       -> Home Manager generation
 ~/.wezterm.lua     -> Home Manager generation
@@ -78,6 +82,8 @@ After the first switch, use the rebuild script for all later changes:
 ```
 
 The switch also runs Home Manager, which refreshes the managed home files.
+cmux uses the tracked Rose Pine Moon theme after the switch; run
+`cmux reload-config` to refresh an already-running app.
 
 ## Updating
 

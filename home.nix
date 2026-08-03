@@ -52,6 +52,19 @@ in
     };
   };
 
+  # cmux uses Ghostty for terminal rendering and its own JSON file for app
+  # chrome. These settings mirror the Rose Pine Moon WezTerm theme.
+  xdg.configFile = {
+    "ghostty/config" = {
+      source = ./app-configs/cmux/ghostty.conf;
+      force = true;
+    };
+    "cmux/cmux.json" = {
+      source = ./app-configs/cmux/cmux.json;
+      force = true;
+    };
+  };
+
   # Home Manager owns these links. `force` handles the one-time transition
   # from the links previously created by configuration.nix.
   home.file = {

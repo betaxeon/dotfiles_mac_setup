@@ -8,6 +8,7 @@
 
   casks = [
     { name = "chatgpt"; appPaths = [ "/Applications/ChatGPT.app" ]; }
+    { name = "cmux"; appPaths = [ "/Applications/cmux.app" ]; }
     { name = "codex"; appPaths = [ "/Applications/Codex.app" ]; }
     { name = "docker-desktop"; appPaths = [ "/Applications/Docker.app" ]; }
     { name = "google-chrome"; appPaths = [ "/Applications/Google Chrome.app" ]; }
