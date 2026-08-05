@@ -1,10 +1,17 @@
 {
   brews = [
+    # Optional Mac package; required by the project's H.264 cropping workflow.
+    { name = "ffmpeg"; commands = [ "ffmpeg" ]; }
     { name = "gh"; commands = [ "gh" ]; }
+    # Optional Mac package; useful for frame-accurate project preview.
+    { name = "mpv"; commands = [ "mpv" ]; }
     { name = "node@24"; commands = [ "node" ]; }
     { name = "tmux"; commands = [ "tmux" ]; }
     { name = "xcodes"; commands = [ "xcodes" ]; }
   ];
+
+  # All catalog entries are optional to the base Mac setup. ffmpeg-full is
+  # intentionally not installed; this project needs only standard ffmpeg.
 
   casks = [
     { name = "chatgpt"; appPaths = [ "/Applications/ChatGPT.app" ]; }
@@ -16,6 +23,7 @@
     { name = "iterm2"; appPaths = [ "/Applications/iTerm.app" ]; }
     { name = "opensuperwhisper"; appPaths = [ "/Applications/OpenSuperWhisper.app" ]; }
     { name = "rectangle"; appPaths = [ "/Applications/Rectangle.app" ]; }
+    { name = "shutter-encoder"; appPaths = [ "/Applications/Shutter Encoder.app" ]; }
     { name = "visual-studio-code"; appPaths = [ "/Applications/Visual Studio Code.app" ]; }
     { name = "wechat"; appPaths = [ "/Applications/WeChat.app" ]; }
     { name = "wezterm"; appPaths = [ "/Applications/WezTerm.app" ]; }

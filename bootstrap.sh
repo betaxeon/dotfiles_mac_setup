@@ -35,6 +35,7 @@ fi
 
 EXCEPTIONS_FILE="$DIR/package-exceptions.nix"
 EXCEPTIONS_TEMPLATE="$DIR/package-exceptions.default.nix"
+PRESERVE_REMAINING=""
 
 if [[ ! -e "$EXCEPTIONS_FILE" ]]; then
   cp "$EXCEPTIONS_TEMPLATE" "$EXCEPTIONS_FILE"
@@ -96,17 +97,39 @@ keep_existing_prompt() {
   local evidence="$3"
   local reply
 
+  if [[ "$PRESERVE_REMAINING" == "yes" ]]; then
+    exception_add "$category" "$item"
+    return
+  elif [[ "$PRESERVE_REMAINING" == "no" ]]; then
+    echo "    $item will be managed by this configuration"
+    return
+  fi
+
   echo
   echo "    Found existing $item at $evidence"
   while true; do
-    read -r -p "    Keep it outside this Nix configuration? [Y/n/q] " reply
+    if ! IFS= read -r -p "    Keep it outside this Nix configuration? [Y/n/a=all/d=none/q] " reply < /dev/tty; then
+      echo "error: cannot read the preservation choice from the terminal" >&2
+      exit 1
+    fi
     case "$reply" in
       ""|y|Y)
         exception_add "$category" "$item"
         return
         ;;
+      a|A)
+        exception_add "$category" "$item"
+        PRESERVE_REMAINING="yes"
+        echo "    Keeping all remaining detected software outside this configuration"
+        return
+        ;;
       n|N)
         echo "    $item will be managed by this configuration"
+        return
+        ;;
+      d|D)
+        PRESERVE_REMAINING="no"
+        echo "    Managing all remaining detected software with this configuration"
         return
         ;;
       q|Q)
@@ -114,7 +137,7 @@ keep_existing_prompt() {
         exit 1
         ;;
       *)
-        echo "    Enter y to keep it external, n to let Nix manage it, or q to quit."
+        echo "    Enter y to keep it external, n to let Nix manage it, a for yes to all, d for no to all, or q to quit."
         ;;
     esac
   done
@@ -212,7 +235,10 @@ if [[ "$FLAKE_USER" == "$REAL_USER" ]]; then
   echo "    flake.nix already matches $REAL_USER"
 else
   echo "    flake.nix is configured for $FLAKE_USER, but you are $REAL_USER."
-  read -r -p "    Rewrite it for $REAL_USER? [y/N] " REPLY
+  if ! IFS= read -r -p "    Rewrite it for $REAL_USER? [y/N] " REPLY < /dev/tty; then
+    echo "error: cannot read the username choice from the terminal" >&2
+    exit 1
+  fi
   if [[ "$REPLY" != "y" && "$REPLY" != "Y" ]]; then
     echo "error: update flake.nix before continuing" >&2
     exit 1

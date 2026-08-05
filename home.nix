@@ -35,7 +35,8 @@ in
       pull = "git pull";
       m = "git switch main";
       cc = "claude --dangerously-skip-permissions";
-      co = "codex --full-auto";
+      # Current supported low-friction mode; this CLI no longer has on-failure.
+      co = "codex --sandbox workspace-write --ask-for-approval on-request";
     };
   };
 

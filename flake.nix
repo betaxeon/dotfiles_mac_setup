@@ -14,7 +14,7 @@
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, nix-homebrew, home-manager }:
   let
-    user = "gary"; # bootstrap-managed
+    user = "zhhgao"; # bootstrap-managed
     exceptionsPath = builtins.getEnv "DOTFILES_PACKAGE_EXCEPTIONS";
     packageExceptions =
       if exceptionsPath != "" && builtins.pathExists exceptionsPath
