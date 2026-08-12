@@ -36,6 +36,10 @@ in
   homebrew = {
     enable = true;
 
+    # OpenSuperWhisper is provided by the my-monkeys tap rather than the
+    # default Homebrew cask tap.
+    taps = [ "my-monkeys/tap" ];
+
     inherit (packageSelection) brews casks masApps;
   };
 
