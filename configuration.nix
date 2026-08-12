@@ -135,6 +135,7 @@ in
           };
         }
       ];
+      showAppExposeGestureEnabled = true;
     };
 
     finder.FXPreferredViewStyle = "clmv";
@@ -154,6 +155,7 @@ in
       SecondClickThreshold = 0;
       TrackpadFourFingerHorizSwipeGesture = 2;
       TrackpadFourFingerPinchGesture = 2;
+      TrackpadFourFingerVertSwipeGesture = 2;
       TrackpadPinch = true;
       TrackpadRightClick = true;
       TrackpadRotate = true;
