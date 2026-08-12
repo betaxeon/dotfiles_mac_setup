@@ -16,12 +16,14 @@
   casks = [
     { name = "chatgpt"; appPaths = [ "/Applications/ChatGPT.app" ]; }
     { name = "cmux"; appPaths = [ "/Applications/cmux.app" ]; }
-    { name = "codex"; appPaths = [ "/Applications/Codex.app" ]; }
+    # Codex is distributed by Homebrew as a CLI cask, not a GUI app bundle.
+    { name = "codex"; appPaths = [ "/opt/homebrew/bin/codex" "/usr/local/bin/codex" ]; }
     { name = "docker-desktop"; appPaths = [ "/Applications/Docker.app" ]; }
     { name = "google-chrome"; appPaths = [ "/Applications/Google Chrome.app" ]; }
     { name = "iina"; appPaths = [ "/Applications/IINA.app" ]; }
     { name = "iterm2"; appPaths = [ "/Applications/iTerm.app" ]; }
     { name = "opensuperwhisper"; appPaths = [ "/Applications/OpenSuperWhisper.app" ]; }
+    { name = "ollama-app"; appPaths = [ "/Applications/Ollama.app" ]; }
     { name = "rectangle"; appPaths = [ "/Applications/Rectangle.app" ]; }
     { name = "shutter-encoder"; appPaths = [ "/Applications/Shutter Encoder.app" ]; }
     { name = "visual-studio-code"; appPaths = [ "/Applications/Visual Studio Code.app" ]; }
@@ -39,6 +41,9 @@
   ];
 
   nixPackages = [
+    { name = "ollama"; commands = [ "ollama" ]; }
+    # Optional project tooling: a Python environment with cv2 available.
+    { name = "opencv-python"; commands = [ ]; }
     { name = "ripgrep"; commands = [ "rg" ]; }
     { name = "fd"; commands = [ "fd" ]; }
     { name = "fzf"; commands = [ "fzf" ]; }
@@ -46,4 +51,7 @@
     { name = "lazygit"; commands = [ "lazygit" ]; }
     { name = "neovim"; commands = [ "nvim" ]; }
   ];
+
+  # Hugin is not listed here because the pinned nixpkgs package is Linux-only
+  # and cannot be evaluated for this Apple Silicon macOS configuration.
 }

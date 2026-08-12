@@ -1,4 +1,4 @@
-{ config, pkgs, user, packageExceptions, ... }:
+{ config, pkgs, lib, user, packageExceptions, ... }:
 
 let
   packageSelection = import ./package-selection.nix {
@@ -6,7 +6,10 @@ let
     exceptions = packageExceptions;
   };
   nixPackages = {
-    inherit (pkgs) ripgrep fd fzf jq lazygit neovim;
+    inherit (pkgs) ollama ripgrep fd fzf jq lazygit neovim;
+    "opencv-python" = pkgs.python3.withPackages (pythonPackages: [
+      pythonPackages.opencv4
+    ]);
   };
 in
 {
@@ -66,6 +69,23 @@ in
     };
   };
 
+  # MenuBar Stats owns this preferences file at runtime. Seed it from Nix
+  # only when it does not exist; do not link it into the immutable store or
+  # overwrite settings changed through the app.
+  home.activation.menuBarStatsPreferences = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    target="$HOME/Library/Group Containers/3EYN7PPTPF.com.fabriceleyne.menubarstats/Library/Preferences/3EYN7PPTPF.com.fabriceleyne.menubarstats.plist"
+
+    # Migrate the former Home Manager-managed Nix-store symlink.
+    if [ -L "$target" ]; then
+      $DRY_RUN_CMD rm "$target"
+    fi
+
+    if [ ! -e "$target" ]; then
+      $DRY_RUN_CMD mkdir -p "$(dirname "$target")"
+      $DRY_RUN_CMD cp ${./app-configs/menubar-stats/preferences.plist} "$target"
+    fi
+  '';
+
   # Home Manager owns these links. `force` handles the one-time transition
   # from the links previously created by configuration.nix.
   home.file = {
@@ -83,10 +103,6 @@ in
     };
     ".gitconfig" = {
       source = ./.gitconfig;
-      force = true;
-    };
-    "Library/Group Containers/3EYN7PPTPF.com.fabriceleyne.menubarstats/Library/Preferences/3EYN7PPTPF.com.fabriceleyne.menubarstats.plist" = {
-      source = ./app-configs/menubar-stats/preferences.plist;
       force = true;
     };
   };
