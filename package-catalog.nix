@@ -24,6 +24,7 @@
     { name = "iterm2"; appPaths = [ "/Applications/iTerm.app" ]; }
     { name = "opensuperwhisper"; appPaths = [ "/Applications/OpenSuperWhisper.app" ]; }
     { name = "ollama-app"; appPaths = [ "/Applications/Ollama.app" ]; }
+    { name = "pearcleaner"; appPaths = [ "/Applications/Pearcleaner.app" ]; }
     { name = "rectangle"; appPaths = [ "/Applications/Rectangle.app" ]; }
     { name = "shutter-encoder"; appPaths = [ "/Applications/Shutter Encoder.app" ]; }
     { name = "visual-studio-code"; appPaths = [ "/Applications/Visual Studio Code.app" ]; }
