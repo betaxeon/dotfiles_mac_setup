@@ -105,5 +105,18 @@ in
       source = ./.gitconfig;
       force = true;
     };
+    # One shared policy for the agents installed on this machine.
+    ".claude/CLAUDE.md" = {
+      source = ./home/AGENTS.md;
+      force = true;
+    };
+    ".codex/AGENTS.md" = {
+      source = ./home/AGENTS.md;
+      force = true;
+    };
+    ".config/opencode/AGENTS.md" = {
+      source = ./home/AGENTS.md;
+      force = true;
+    };
   };
 }
