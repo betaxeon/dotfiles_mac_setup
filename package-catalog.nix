@@ -26,7 +26,6 @@
     { name = "ollama-app"; appPaths = [ "/Applications/Ollama.app" ]; }
     { name = "pearcleaner"; appPaths = [ "/Applications/Pearcleaner.app" ]; }
     { name = "rectangle"; appPaths = [ "/Applications/Rectangle.app" ]; }
-    { name = "shutter-encoder"; appPaths = [ "/Applications/Shutter Encoder.app" ]; }
     { name = "visual-studio-code"; appPaths = [ "/Applications/Visual Studio Code.app" ]; }
     { name = "wechat"; appPaths = [ "/Applications/WeChat.app" ]; }
     { name = "wezterm"; appPaths = [ "/Applications/WezTerm.app" ]; }
