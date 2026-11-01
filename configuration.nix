@@ -6,6 +6,7 @@ let
     catalog = import ./package-catalog.nix;
     exceptions = packageExceptions;
   };
+  preferences = builtins.fromJSON (builtins.readFile ./macos-preferences.json);
 in
 
 {
@@ -45,80 +46,18 @@ in
 
   # Current non-default macOS preferences captured from this Mac.
   system.defaults = {
-    CustomUserPreferences = {
-      NSGlobalDomain = {
-        AppleLanguages = [
-          "en-AU"
-          "zh-Hans-AU"
-        ];
-        AppleLocale = "en_AU";
-      };
-
-      # Keep Australian and Simplified Chinese Pinyin available as input
-      # sources. Language preferences alone do not preserve keyboards.
-      "com.apple.HIToolbox" = {
-        AppleEnabledInputSources = [
-          {
-            InputSourceKind = "Keyboard Layout";
-            "KeyboardLayout ID" = 15;
-            "KeyboardLayout Name" = "Australian";
-          }
-          {
-            "Bundle ID" = "com.apple.CharacterPaletteIM";
-            InputSourceKind = "Non Keyboard Input Method";
-          }
-          {
-            "Bundle ID" = "com.apple.PressAndHold";
-            InputSourceKind = "Non Keyboard Input Method";
-          }
-          {
-            "Bundle ID" = "com.apple.inputmethod.SCIM";
-            InputSourceKind = "Keyboard Input Method";
-          }
-          {
-            "Bundle ID" = "com.apple.inputmethod.SCIM";
-            "Input Mode" = "com.apple.inputmethod.SCIM.ITABC";
-            InputSourceKind = "Input Mode";
-          }
-        ];
-        AppleInputSourceHistory = [
-          {
-            InputSourceKind = "Keyboard Layout";
-            "KeyboardLayout ID" = 15;
-            "KeyboardLayout Name" = "Australian";
-          }
-          {
-            "Bundle ID" = "com.apple.inputmethod.SCIM";
-            "Input Mode" = "com.apple.inputmethod.SCIM.ITABC";
-            InputSourceKind = "Input Mode";
-          }
-        ];
-      };
-    };
-
-    NSGlobalDomain = {
-      InitialKeyRepeat = 15;
-      KeyRepeat = 2;
-      "com.apple.swipescrolldirection" = false;
-      "com.apple.trackpad.forceClick" = true;
-      "com.apple.trackpad.scaling" = 0.875;
-    };
-
-    WindowManager = {
-      EnableTiledWindowMargins = false;
-      EnableTilingByEdgeDrag = false;
-      EnableTilingOptionAccelerator = false;
-      EnableTopTilingByEdgeDrag = false;
-      HideDesktop = true;
+    # The same user preferences are applied without Nix by work mode.
+    CustomUserPreferences = (builtins.removeAttrs preferences [ "com.apple.controlcenter" ]) // {
+      "com.apple.driver.AppleBluetoothMultitouch.trackpad" =
+        preferences."com.apple.AppleMultitouchTrackpad";
     };
 
     controlcenter = {
-      BatteryShowPercentage = false;
-      Bluetooth = true;
+      BatteryShowPercentage = preferences."com.apple.controlcenter".BatteryShowPercentage;
+      Bluetooth = preferences."com.apple.controlcenter".Bluetooth == 18;
     };
 
     dock = {
-      autohide = true;
       persistent-apps = [
         "/System/Applications/Messages.app"
         "/System/Applications/Calendar.app"
@@ -135,36 +74,6 @@ in
           };
         }
       ];
-      showAppExposeGestureEnabled = true;
-    };
-
-    finder.FXPreferredViewStyle = "clmv";
-
-    menuExtraClock = {
-      FlashDateSeparators = false;
-      IsAnalog = false;
-      ShowAMPM = true;
-      ShowDate = 0;
-      ShowDayOfWeek = true;
-      ShowSeconds = true;
-    };
-
-    trackpad = {
-      Clicking = true;
-      FirstClickThreshold = 0;
-      SecondClickThreshold = 0;
-      TrackpadFourFingerHorizSwipeGesture = 2;
-      TrackpadFourFingerPinchGesture = 2;
-      TrackpadFourFingerVertSwipeGesture = 2;
-      TrackpadPinch = true;
-      TrackpadRightClick = true;
-      TrackpadRotate = true;
-      TrackpadThreeFingerDrag = true;
-      TrackpadThreeFingerHorizSwipeGesture = 0;
-      TrackpadThreeFingerTapGesture = 0;
-      TrackpadThreeFingerVertSwipeGesture = 0;
-      TrackpadTwoFingerDoubleTapGesture = true;
-      TrackpadTwoFingerFromRightEdgeSwipeGesture = 3;
     };
   };
 

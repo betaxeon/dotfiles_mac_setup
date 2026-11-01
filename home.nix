@@ -27,33 +27,19 @@ in
     enable = true;
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
-    initContent = (builtins.readFile ./.zshrc) + ''
+    initContent = (builtins.readFile ./.zshrc)
+      + (builtins.readFile ./app-configs/shell/aliases.zsh) + ''
 
       bindkey '^f' autosuggest-accept
     '';
     shellAliases = {
-      ".." = "cd ..";
-      add = "git add .";
-      push = "git push";
-      pull = "git pull";
-      m = "git switch main";
       cc = "claude --dangerously-skip-permissions";
-      # Current supported low-friction mode; this CLI no longer has on-failure.
-      co = "codex --sandbox workspace-write --ask-for-approval on-request";
     };
   };
 
   programs.starship = {
     enable = true;
-    settings = {
-      add_newline = false;
-      format = "$directory$git_branch$git_status$cmd_duration$line_break$character";
-      character = {
-        success_symbol = "[❯](purple)";
-        error_symbol = "[❯](red)";
-      };
-      cmd_duration.format = "[$duration]($style) ";
-    };
+    settings = builtins.fromTOML (builtins.readFile ./app-configs/starship.toml);
   };
 
   # cmux uses Ghostty for terminal rendering and its own JSON file for app

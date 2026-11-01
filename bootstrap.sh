@@ -1,9 +1,17 @@
 #!/usr/bin/env bash
-# Takes a fresh Mac from nothing to a built nix-darwin configuration.
+# Sets up a personal or work Mac.
 # Run this once. After it finishes, use ./rebuild.sh for later changes.
 set -euo pipefail
 
 DIR="$(cd "$(dirname "$0")" && pwd -P)"
+
+# shellcheck source=scripts/setup-options.sh
+source "$DIR/scripts/setup-options.sh"
+if [[ "$MODE" == work ]]; then
+  # shellcheck source=scripts/work-setup.sh
+  source "$DIR/scripts/work-setup.sh"
+  exit 0
+fi
 
 if [[ "$(id -u)" -eq 0 ]]; then
   echo "error: run this script as your normal user, without sudo" >&2

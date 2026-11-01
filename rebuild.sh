@@ -2,6 +2,14 @@
 set -euo pipefail
 
 DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=scripts/setup-options.sh
+source "$DIR/scripts/setup-options.sh"
+if [[ "$MODE" == work ]]; then
+  # shellcheck source=scripts/work-setup.sh
+  source "$DIR/scripts/work-setup.sh"
+  exit 0
+fi
+
 EXCEPTIONS_FILE="$DIR/package-exceptions.nix"
 
 REAL_USER="$(id -un)"

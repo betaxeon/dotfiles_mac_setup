@@ -1,19 +1,9 @@
 autoload -Uz compinit
 compinit
-export PATH="/opt/homebrew/opt/node@24/bin:$PATH"
-
-# Added by CodeBuddy - shell command
-export PATH="/Users/zhhgao/.codebuddy/bin:$PATH"
-
-
-# Added by CodeBuddy
-export PATH="/Users/zhhgao/.codebuddy/bin:$PATH"
-
-# Added by LM Studio CLI (lms)
-export PATH="$PATH:/Users/zhhgao/.lmstudio/bin"
-# End of LM Studio CLI section
-
-
-
-# Added by CodeBuddy CN
-export PATH="/Users/zhhgao/.codebuddy/bin:$PATH"
+typeset -U path
+# Preserve workplace-provided tools ahead of optional personal installations.
+for _dotfiles_bin in "${HOMEBREW_PREFIX:-/opt/homebrew}/opt/node@24/bin" \
+  "$HOME/.codebuddy/bin" "$HOME/.lmstudio/bin" "$HOME/.local/bin"; do
+  [[ ! -d "$_dotfiles_bin" ]] || path+=("$_dotfiles_bin")
+done
+unset _dotfiles_bin

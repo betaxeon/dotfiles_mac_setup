@@ -1,0 +1,6 @@
+alias ..='cd ..'
+alias add='git add .'
+alias push='git push'
+alias pull='git pull'
+alias m='git switch main'
+alias co='codex --sandbox workspace-write --ask-for-approval on-request'

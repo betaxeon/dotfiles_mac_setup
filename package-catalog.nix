@@ -15,6 +15,8 @@
 
   casks = [
     { name = "chatgpt"; appPaths = [ "/Applications/ChatGPT.app" ]; }
+    { name = "claude"; appPaths = [ "/Applications/Claude.app" ]; }
+    { name = "claude-code"; appPaths = [ "/opt/homebrew/bin/claude" "/usr/local/bin/claude" ]; }
     { name = "cmux"; appPaths = [ "/Applications/cmux.app" ]; }
     # Codex is distributed by Homebrew as a CLI cask, not a GUI app bundle.
     { name = "codex"; appPaths = [ "/opt/homebrew/bin/codex" "/usr/local/bin/codex" ]; }
@@ -22,6 +24,7 @@
     { name = "google-chrome"; appPaths = [ "/Applications/Google Chrome.app" ]; }
     { name = "iina"; appPaths = [ "/Applications/IINA.app" ]; }
     { name = "iterm2"; appPaths = [ "/Applications/iTerm.app" ]; }
+    { name = "macshot"; appPaths = [ "/Applications/macshot.app" ]; }
     { name = "opensuperwhisper"; appPaths = [ "/Applications/OpenSuperWhisper.app" ]; }
     { name = "ollama-app"; appPaths = [ "/Applications/Ollama.app" ]; }
     { name = "pearcleaner"; appPaths = [ "/Applications/Pearcleaner.app" ]; }

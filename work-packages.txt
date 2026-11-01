@@ -1,0 +1,14 @@
+# Formula and executable used to detect an existing workplace installation.
+# Existing commands are preserved, including tools provided outside Homebrew.
+gh gh
+node@24 node
+tmux tmux
+ripgrep rg
+fd fd
+fzf fzf
+jq jq
+lazygit lazygit
+neovim nvim
+starship starship
+zsh-autosuggestions -
+zsh-syntax-highlighting -
